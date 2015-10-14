@@ -258,7 +258,7 @@ public abstract class Evaluator {
 
         @Override
         public boolean matches(Element root, Element element) {
-            return element.hasAttr(key) && pattern.matcher(element.attr(key)).find();
+            return element.hasAttr(key) && pattern.matcher(element.attr(key)).matches();
         }
 
         @Override
