@@ -660,13 +660,13 @@ public abstract class Evaluator {
         }
     }
 
-    /**
+        /**
      * Evaluator for matching Element (and its descendants) text with regex
      */
-    public static final class Matches extends Evaluator {
+    public static final class Contains extends Evaluator {
         private Pattern pattern;
 
-        public Matches(Pattern pattern) {
+        public Contains(Pattern pattern) {
             this.pattern = pattern;
         }
 
@@ -683,6 +683,50 @@ public abstract class Evaluator {
     }
 
     /**
+     * Evaluator for matching Element (and its descendants) text with regex
+     */
+    public static final class Matches extends Evaluator {
+        private Pattern pattern;
+
+        public Matches(Pattern pattern) {
+            this.pattern = pattern;
+        }
+
+        @Override
+        public boolean matches(Element root, Element element) {
+            Matcher m = pattern.matcher(element.fullText());
+            return m.matches();
+        }
+
+        @Override
+        public String toString() {
+            return String.format(":matches(%s", pattern);
+        }
+    }
+
+        /**
+     * Evaluator for matching Element's own text with regex
+     */
+    public static final class ContainsOwn extends Evaluator {
+        private Pattern pattern;
+
+        public ContainsOwn(Pattern pattern) {
+            this.pattern = pattern;
+        }
+
+        @Override
+        public boolean matches(Element root, Element element) {
+            Matcher m = pattern.matcher(element.ownText());
+            return m.find();
+        }
+
+        @Override
+        public String toString() {
+            return String.format(":matchesOwn(%s", pattern);
+        }
+    }
+
+    /**
      * Evaluator for matching Element's own text with regex
      */
     public static final class MatchesOwn extends Evaluator {
@@ -694,8 +738,8 @@ public abstract class Evaluator {
 
         @Override
         public boolean matches(Element root, Element element) {
-            Matcher m = pattern.matcher(element.ownText());
-            return m.find();
+            Matcher m = pattern.matcher(element.ownFullText());
+            return m.matches();
         }
 
         @Override

@@ -871,6 +871,10 @@ public class Element extends Node {
      * @see #textNodes()
      */
     public String text() {
+        return fullText().trim();
+    }
+    
+    public String fullText() {
         final StringBuilder accum = new StringBuilder();
         new NodeTraversor(new NodeVisitor() {
             public void head(Node node, int depth) {
@@ -889,7 +893,7 @@ public class Element extends Node {
             public void tail(Node node, int depth) {
             }
         }).traverse(this);
-        return accum.toString().trim();
+        return accum.toString();
     }
 
     /**
@@ -904,9 +908,13 @@ public class Element extends Node {
      * @see #textNodes()
      */
     public String ownText() {
+        return ownFullText().trim();
+    }
+    
+    public String ownFullText() {
         StringBuilder sb = new StringBuilder();
         ownText(sb);
-        return sb.toString().trim();
+        return sb.toString();
     }
 
     private void ownText(StringBuilder accum) {
